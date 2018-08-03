@@ -7,7 +7,7 @@
     "buffer-equals": "^1.0.3",
     "connections": "^1.4.2",
     "debug": "^3.1.0",
-    "discovery-channel": "^5.5.1",
+    "discovery-channel": "https://github.com/mmpmm/discovery-channel",
     "length-prefixed-message": "^3.0.3",
     "pump": "^3.0.0",
     "to-buffer": "^1.0.1"
