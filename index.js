@@ -53,6 +53,7 @@ function Swarm (opts) {
   this._peersIds = {}
   this._peersSeen = {}
   this._peersQueued = []
+  this._peersCleared = {}
 
   if (this._options.discovery !== false) {
     this.on('listening', this._ondiscover)
@@ -386,7 +387,7 @@ Swarm.prototype._onconnection = function (connection, type, peer) {
     }
   }
 
-  function onhandshake (remoteId) {
+  function onhandshake (remoteId, force) {
     if (!remoteId) remoteId = connection.remoteId
     clearTimeout(timeout)
     remoteIdHex = remoteId.toString('hex')
@@ -412,7 +413,7 @@ Swarm.prototype._onconnection = function (connection, type, peer) {
     var old = oldWrap && oldWrap.connection
     var oldType = oldWrap && oldWrap.info.type
 
-    if (old) {
+    if (old && self._peersCleared[peer.host] === undefined && force === undefined) {
       debug('duplicate connections detected in handshake, dropping one')
       if (!(oldType === 'utp' && type === 'tcp')) {
         if ((peer && remoteIdHex < idHex) || (!peer && remoteIdHex > idHex) || (type === 'utp' && oldType === 'tcp')) {
