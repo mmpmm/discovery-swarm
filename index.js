@@ -413,7 +413,7 @@ Swarm.prototype._onconnection = function (connection, type, peer) {
     var old = oldWrap && oldWrap.connection
     var oldType = oldWrap && oldWrap.info.type
 
-    if (old && self._peersCleared[peer.host] === undefined && force === undefined) {
+    if (old && self._force === undefined) {
       debug('duplicate connections detected in handshake, dropping one')
       if (!(oldType === 'utp' && type === 'tcp')) {
         if ((peer && remoteIdHex < idHex) || (!peer && remoteIdHex > idHex) || (type === 'utp' && oldType === 'tcp')) {
